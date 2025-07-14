@@ -95,4 +95,4 @@ curl -X POST http://localhost:5000/chat \
 
 **Created by:** Penke Sreeram Kasulu  
 **Powered by:** Open-Source AI & Indian Market Research 💡  
-**License:** MIT
+
