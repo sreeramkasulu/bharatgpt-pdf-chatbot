@@ -25,5 +25,6 @@ pypdf==4.2.0
 
 # Utilities
 tqdm==4.67.1
-numpy==2.3.1
+numpy==1.26.4
+
 scikit-learn==1.5.0
