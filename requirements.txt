@@ -3,9 +3,10 @@ flask==3.1.1
 python-dotenv==1.0.1
 
 # LangChain modules
-langchain==0.3.26
-langchain-community==0.3.27
+langchain==0.1.16
+langchain-community==0.0.30
 langchain-huggingface==0.0.3
+
 
 # Vector DB
 faiss-cpu==1.11.0.post1
