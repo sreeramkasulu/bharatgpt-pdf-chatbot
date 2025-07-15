@@ -4,7 +4,8 @@ python-dotenv==1.0.1
 
 # LangChain modules
 langchain==0.1.16
-langchain-community==0.0.30
+langchain-community==0.0.34
+
 langchain-huggingface==0.0.3
 
 
