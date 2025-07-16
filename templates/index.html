@@ -25,6 +25,15 @@
       animation: fadeIn 1.2s ease-in-out;
     }
 
+    .subtitle {
+      margin-top: 10px;
+      color: #aaa;
+      font-size: 16px;
+      text-align: center;
+      max-width: 600px;
+      padding: 0 10px;
+    }
+
     form {
       display: flex;
       flex-direction: column;
@@ -74,6 +83,19 @@
       animation: fadeInUp 0.8s ease-in-out;
     }
 
+    .examples {
+      margin-top: 30px;
+      font-size: 15px;
+      color: #ccc;
+      max-width: 600px;
+      padding: 0 10px;
+      animation: fadeInUp 0.8s ease-in-out;
+    }
+
+    .examples strong {
+      color: #00ffcc;
+    }
+
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -103,16 +125,30 @@
 </head>
 <body>
   <h1>🤖 BharatGPT: Your Indian Market Mentor</h1>
+  <div class="subtitle">
+    Ask me about India’s biomaterials, sustainability regulations, circular economy, or how to expand your startup in the Indian market.
+  </div>
 
   <form id="chatForm">
     <input
       type="text"
       id="message"
-      placeholder="Ask me about Indian biomaterials, regulations, or market strategies..."
+      placeholder="e.g. What is BioE3 and how can startups benefit from it?"
       required
     />
     <button type="submit">🔍 Ask BharatGPT</button>
   </form>
+
+  <div class="examples">
+    <p><strong>Try asking:</strong></p>
+    <ul>
+      <li>📦 What are India’s rules for biodegradable packaging?</li>
+      <li>🏭 How can I set up a recycling facility with ULBs?</li>
+      <li>📊 Which Indian government schemes support circular economy startups?</li>
+      <li>🧪 What are the benefits of partnering with IISc or CSIR?</li>
+      <li>💡 Tell me about successful investments like MYNUSCo or Recykal</li>
+    </ul>
+  </div>
 
   <div id="response"></div>
 
