@@ -52,7 +52,7 @@ Ask BharatGPT about:
 - 🧪 Partnering with IISc, CSIR, or BIRAC  
 - 💡 Examples like MYNUSCo, Recykal, or BioE3 Policy  
 
-Out-of-context questions (e.g. "Who is Virat Kohli?") will return:  
+Out-of-context questions (e.g., "Who is Virat Kohli?") will return:  
 > **"This question is out of context"**
 
 ---
@@ -71,32 +71,23 @@ curl -X POST http://localhost:5000/chat \
 
 | Feature                             | Status     |
 |-------------------------------------|------------|
-| 🧠 PDF-trained LLM with FAISS        | ✅ Enabled |
-| 📍 Bullet point answers (no repeats) | ✅ Clean   |
-| 🚫 Rejects out-of-context questions | ✅ Working |
-| ⚡ Fast inference (<3 sec)           | ✅ CPU OK  |
+| 🧠 PDF‑trained LLM with FAISS        | ✅ Enabled |
+| 📍 Bullet‑point answers (no repeats) | ✅ Clean   |
+| 🚫 Rejects out‑of‑context questions  | ✅ Working |
+| ⚡ Fast inference (<3 sec CPU)       | ✅ OK      |
 | 📄 Shows helpful context snippets    | ✅ Smart   |
 
 ---
 
 ## 🔒 Optional: Local `.gguf` LLM Support
 
-Want to run your own local LLM using `llama.cpp`?
+To run a local LLM via `llama.cpp`, follow these steps:
 
-1. Download TinyLLaMA `.gguf` model:  
-   👉 https://huggingface.co/cmp-nct/TinyLlama-1.1B-Chat-v1.0-GGUF
-
-2. Rename it to:
-```
-model.gguf
-```
-
-3. Place it in:
-```
-/models/
-```
-
-4. Use with `llama-cpp-python` or `Ollama`
+1. Download the `.gguf` model file, e.g.:  
+   `TinyLlama-1.1B-Chat-v1.0-GGUF` from Hugging Face  
+2. Rename it to `model.gguf`  
+3. Place it in the `/models/` directory  
+4. Load it using `llama-cpp-python`, `Ollama`, or similar tools
 
 ---
 
