@@ -1,98 +1,106 @@
 # 💬 BharatGPT — Your Indian Market Mentor 🤖  
-**PDF-based AI Chatbot for Entering the Indian Biomaterials & Sustainability Market**
+**AI PDF Chatbot for Biomaterials, Sustainability, and Circular Economy in India**
 
 ---
 
 ## 🧠 TECH STACK
 
-- **FLAN-T5 Small** (Hugging Face)  
-- **LangChain**  
-- **FAISS** (vector similarity search)  
-- **Flask** (Python web server)  
-- **HTML + CSS + JS** (Frontend)  
-- **Local LLM-ready** (TinyLLaMA `.gguf`) — optional
+- **FLAN-T5 Small (`MBZUAI/LaMini-Flan-T5-248M`)** – Compact, fast, and accurate  
+- **LangChain** – Intelligent chaining and prompt handling  
+- **FAISS** – Vector similarity search over PDFs  
+- **Flask** – Lightweight web server  
+- **HTML + CSS + JS** – Front-end UI  
+- **Runs on CPU** – No GPU required  
 
 ---
 
-## ✅ Works locally on Windows/macOS/Linux  
-Requires Python 3.9+ and `pip`
+## ✅ Fully Local — Works on Windows, macOS, Linux  
+Requires **Python 3.9+** and `pip`
 
 ---
 
-## 📁 Project Setup — Step-by-Step
+## 📁 Project Setup
 
-### ▶️ STEP 1: Prepare your project
+### ▶️ STEP 1: Setup Project Directory
 
 1. Clone or unzip the project folder  
-2. Place your PDF (e.g. `sustainable_biomaterials_india.pdf`) in the root directory  
-3. Open terminal in the project folder  
+2. Add your PDF (e.g. `biomaterials_india.pdf`) to the root directory  
+3. Open a terminal in the project folder  
 
 ---
 
-### ▶️ STEP 2: Install & Launch
+### ▶️ STEP 2: Install Requirements & Start Server
 
 ```bash
 pip install -r requirements.txt
-python process_pdf.py
-python app.py
+python process_pdf.py     # Convert PDF to vectorstore
+python app.py             # Launch the chatbot
 ```
 
-You should see:
-
-```
-Running on http://127.0.0.1:5000
-```
-
-Then open your browser:  
+Your browser will open at:  
 👉 http://localhost:5000
 
 ---
 
-You can now ask questions like:
+## 💬 What Can You Ask?
 
-- "How to enter the Indian sustainability market?"  
-- "What are regulatory challenges for biomaterials in India?"  
-- "How to apply for BIRAC support?"  
-- "How to lead the Indian market in sustainable biomaterials?"  
+Ask BharatGPT about:
 
----
+- 📦 India’s rules for biodegradable packaging  
+- 🏭 Setting up a recycling facility with ULBs  
+- 📊 Government schemes for sustainability startups  
+- 🧪 Partnering with IISc, CSIR, or BIRAC  
+- 💡 Examples like MYNUSCo, Recykal, or BioE3 Policy  
 
-## ✨ Optional: Use Local LLM with `.gguf` model (Advanced)
-
-If you want to run an LLM offline using TinyLLaMA:
-
-1. Download from Hugging Face:  
-   👉 https://huggingface.co/cmp-nct/TinyLlama-1.1B-Chat-v1.0-GGUF
-
-2. Rename the file to:
-   ```
-   model.gguf
-   ```
-
-3. Place it here:
-   ```
-   ai_pdf_chatbot_prebuilt/models/
-   ```
-
-4. Run it using `llama.cpp`, `llama-cpp-python`, or `Ollama`  
-   ⚠️ FLAN-T5 is used by default
+Out-of-context questions (e.g. "Who is Virat Kohli?") will return:  
+> **"This question is out of context"**
 
 ---
 
-## 🧪 Test with curl (optional)
+## 🧪 Test via `curl` (Optional)
 
 ```bash
 curl -X POST http://localhost:5000/chat \
      -H "Content-Type: application/json" \
-     -d "{\"message\": \"How to dominate the Indian biomaterials market?\"}"
+     -d "{\"message\": \"How to expand my startup in Indian market?\"}"
 ```
-
-✅ If you get a valid answer — YOU DID IT!
 
 ---
 
-## 👨‍💻 Credits
+## 📌 Features Recap
 
-**Created by:** Penke Sreeram Kasulu  
-**Powered by:** Open-Source AI & Indian Market Research 💡  
+| Feature                             | Status     |
+|-------------------------------------|------------|
+| 🧠 PDF-trained LLM with FAISS        | ✅ Enabled |
+| 📍 Bullet point answers (no repeats) | ✅ Clean   |
+| 🚫 Rejects out-of-context questions | ✅ Working |
+| ⚡ Fast inference (<3 sec)           | ✅ CPU OK  |
+| 📄 Shows helpful context snippets    | ✅ Smart   |
 
+---
+
+## 🔒 Optional: Local `.gguf` LLM Support
+
+Want to run your own local LLM using `llama.cpp`?
+
+1. Download TinyLLaMA `.gguf` model:  
+   👉 https://huggingface.co/cmp-nct/TinyLlama-1.1B-Chat-v1.0-GGUF
+
+2. Rename it to:
+```
+model.gguf
+```
+
+3. Place it in:
+```
+/models/
+```
+
+4. Use with `llama-cpp-python` or `Ollama`
+
+---
+
+## 👨‍💻 Author
+
+**Made by:** Penke Sreeram Kasulu  
+**Mission:** Help the world navigate the Indian sustainability market with AI 🌱
