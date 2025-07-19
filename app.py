@@ -8,8 +8,8 @@ import re
 
 app = Flask(__name__, template_folder="templates")
 
-# Load local FLAN-T5 model
-model_name = "google/flan-t5-base"
+# Load compact model
+model_name = "MBZUAI/LaMini-Flan-T5-248M"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
@@ -17,19 +17,19 @@ pipe = pipeline(
     "text2text-generation",
     model=model,
     tokenizer=tokenizer,
-    max_length=512,
-    max_new_tokens=150,
-    do_sample=False  # Deterministic output
+    max_length=256,
+    max_new_tokens=100,
+    do_sample=False
 )
 
 llm = HuggingFacePipeline(pipeline=pipe)
 
-# Load FAISS vector store
+# Load FAISS store
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 db = FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
 retriever = db.as_retriever(search_kwargs={"k": 5})
 
-# PromptTemplate with clean wording
+# Prompt Template
 custom_prompt = PromptTemplate.from_template("""
 You are BharatGPT, an expert in India’s biomaterials industry, sustainability policies, and circular economy regulations.
 
@@ -49,7 +49,6 @@ Question:
 Answer:
 """)
 
-# QA chain with prompt
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=retriever,
@@ -57,14 +56,12 @@ qa_chain = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": custom_prompt}
 )
 
-# Truncate long context to avoid token overflow
+# Text truncation
 def truncate_text(text, max_tokens=350):
     words = text.split()
-    if len(words) > max_tokens:
-        return " ".join(words[:max_tokens])
-    return text
+    return " ".join(words[:max_tokens]) if len(words) > max_tokens else text
 
-# Deduplicate and bulletify model output
+# Clean and deduplicate answer
 def bulletify(text):
     seen = set()
     cleaned = []
@@ -72,12 +69,14 @@ def bulletify(text):
     lines = re.split(r'(?<=[.!?])\s+', text.strip())
     for line in lines:
         line_clean = re.sub(r"\s+", " ", line.strip())
-        if len(line_clean) > 3 and line_clean not in seen:
-            cleaned.append(f"• {line_clean}")
-            seen.add(line_clean)
+        if len(line_clean) > 3:
+            hash_key = re.sub(r'\W+', '', line_clean.lower())
+            if hash_key not in seen:
+                cleaned.append(f"• {line_clean}")
+                seen.add(hash_key)
     return "\n".join(cleaned)
 
-# Extract top N context snippets cleanly
+# Extract top context snippets
 def extract_clean_snippets(docs, limit=3):
     clean_snippets = []
     for doc in docs[:limit]:
@@ -101,22 +100,41 @@ def chat():
     if not query:
         return jsonify({"error": "No message provided"}), 400
 
-    # Get relevant context docs
     docs = retriever.invoke(query)
+    if not docs or all(len(doc.page_content.strip()) < 30 for doc in docs):
+        return jsonify({"answer": "This question is out of context"})
+
     context_raw = extract_clean_snippets(docs)
     context = truncate_text(context_raw)
 
-    # Generate answer using prompt + context
-    result = qa_chain.invoke({"query": query, "context": context})
-    print("Raw result:", result)
+    if len(context.strip()) < 30:
+        return jsonify({"answer": "This question is out of context"})
 
-    # Fallback-safe result key
-    answer_raw = result.get("result") or result.get("answer") or "Sorry, I couldn't generate a meaningful answer."
+    result = qa_chain.invoke({"query": query, "context": context})
+    answer_raw = result.get("result") or result.get("answer") or ""
+
+    # Bulletify and clean
     answer = bulletify(answer_raw)
+
+    # If LLM failed to extract real answer
+    out_of_context_phrases = [
+        "no specific answer is found",
+        "does not provide information",
+        "not available in the context",
+        "Sorry, I couldn't generate",
+        "no relevant information",
+        "this question is out of context",
+        "bharatgpt is an expert in"
+    ]
+    if any(phrase in answer.lower() for phrase in out_of_context_phrases):
+       return jsonify({"answer": "This question is out of context"})
+       
 
     return jsonify({
         "answer": f"{answer}\n\n📄 Context Snippets:\n{context}"
     })
 
 if __name__ == "__main__":
+    import webbrowser
+    webbrowser.open("http://127.0.0.1:5000")
     app.run(port=5000)
