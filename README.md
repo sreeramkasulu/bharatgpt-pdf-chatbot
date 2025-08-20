@@ -1,5 +1,6 @@
 # 💬 BharatGPT — Your Indian Market Mentor 🤖  
-**AI PDF Chatbot for Biomaterials, Sustainability, and Circular Economy in India**
+**AI PDF Chatbot for Biomaterials, Sustainability, and Circular Economy in India**  
+**Live Demo:** [https://bharatgpt-indian-market-mentor.streamlit.app/](https://bharatgpt-indian-market-mentor.streamlit.app/)
 
 ---
 
@@ -73,7 +74,7 @@ curl -X POST http://localhost:5000/chat \
 |-------------------------------------|------------|
 | 🧠 PDF‑trained LLM with FAISS        | ✅ Enabled |
 | 📍 Bullet‑point answers (no repeats) | ✅ Clean   |
-| 🚫 Rejects out‑of‑context questions  | ✅ Working |
+| 🚫 Rejects out‑of-context questions  | ✅ Working |
 | ⚡ Fast inference (<3 sec CPU)       | ✅ OK      |
 | 📄 Shows helpful context snippets    | ✅ Smart   |
 
